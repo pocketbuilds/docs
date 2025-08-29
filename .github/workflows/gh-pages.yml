@@ -1,0 +1,36 @@
+name: github pages
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-verion: '13'
+
+      - name: Download Plenti
+        run: wget -c $(curl -s https://api.github.com/repos/plentico/plenti/releases/latest | grep -o 'http.*linux_64-bit.tar.gz')
+
+      - name: Unpack Plenti
+        run: tar -zxvf *_linux_64-bit.tar.gz
+
+      - name: Install node packages
+        run: npm install
+
+      - name: Build
+        run: ./plenti build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: public # The folder the action should deploy.

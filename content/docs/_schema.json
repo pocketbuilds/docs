@@ -1,0 +1,28 @@
+{
+  "title": {
+    "type": "text"
+  },
+  "group": {
+    "type": "reference",
+    "options": [
+      {
+        "type": "groups",
+        "search": [
+          "title"
+        ],
+        "result": "path"
+      }
+    ]
+  },
+  "order": {
+    "type": "number"
+  },
+  "components": {
+    "type": "component",
+    "options": [
+      "accordion",
+      "markdown",
+      "rich_text"
+    ]
+  }
+}

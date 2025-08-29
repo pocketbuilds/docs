@@ -1,0 +1,17 @@
+{
+  "name": {
+    "type": "text",
+    "options": [
+      "hidden"
+    ]
+  },
+  "body": {
+    "type": "wysiwyg",
+    "options": [
+        "bold",
+        "italic",
+        "link",
+        "unlink"
+    ]
+  }
+}

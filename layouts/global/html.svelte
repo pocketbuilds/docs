@@ -1,0 +1,63 @@
+<script>
+	import Footer from "./footer.svelte";
+	import Head from "./head.svelte";
+	import MainNav from "./main_nav.svelte";
+	import SideNav from "./side_nav.svelte";
+
+	export let content, layout, allContent, allLayouts, env, user;
+
+	$: if (env.local && user && $user) {
+		$user.login();
+	}
+
+</script>
+
+<html lang="en">
+	<Head {content} {env} />
+	<body>
+		{#if user && $user.isAuthenticated}
+			<svelte:component this={$user.menu} {user} bind:content />
+		{/if}
+		<div class="content" style={(user && $user.isAuthenticated) ? 'height: calc(100vh - 40px);' : ''}>
+			<header>
+				<MainNav />
+			</header>
+			<main>
+				<SideNav {content} {allContent} />
+				<svelte:component this={layout} {...content.fields} {content} {allContent} {allLayouts} {user} />
+			</main>
+			<footer>
+				<Footer />
+			</footer>
+		</div>
+	</body>
+</html>
+
+<style>
+	body {
+		height: 100%;
+		margin: 0;
+	}
+	.content {
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+		margin: 0 10px;
+	}
+	header {
+		border-bottom: 1px solid gainsboro;
+		padding: 10px 0;
+		flex-shrink: 0;
+	}
+	main {
+		display: flex;
+		align-items: stretch;
+		flex: 1 0 auto;
+		margin: 10px 0;
+	}
+	footer {
+		border-top: 1px solid gainsboro;
+		padding: 10px 0;
+		flex-shrink: 0;
+	}
+</style>

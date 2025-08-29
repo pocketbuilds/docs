@@ -1,0 +1,11 @@
+{
+	"baseurl": "/",
+	"build": "public",
+	"local": {
+		"port": 3000
+	},
+	"routes": {
+		"groups": ":filename",
+		"docs": ":fields(group)/:filename"
+	}
+}

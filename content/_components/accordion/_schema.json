@@ -1,0 +1,15 @@
+{
+  "name": {
+    "type": "text",
+    "options": [
+      "hidden"
+    ]
+  },
+  "components": {
+    "type": "component",
+    "options": [
+      "markdown",
+      "rich_text"
+    ]
+  }
+}
