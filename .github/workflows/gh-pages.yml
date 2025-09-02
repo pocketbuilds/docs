@@ -23,7 +23,7 @@ jobs:
         uses: docker://plentico/plenti:latest
         with:
           entrypoint: /plenti
-          args: build
+          args: build --bundle
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v4
