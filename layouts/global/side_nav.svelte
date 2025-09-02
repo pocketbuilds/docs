@@ -15,7 +15,7 @@
 
 	function sortFunc(a, b) {
 		if (a?.fields?.order != null && b?.fields?.order != null) {
-			return e.fields.order - b.fields.order;
+			return a.fields.order - b.fields.order;
 		}
 		return -1;
 	}

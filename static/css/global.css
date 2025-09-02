@@ -1,0 +1,9 @@
+* {
+	font-family: sans-serif;
+	line-height: 1.5;
+}
+code,
+code * {
+	font-family: monospace;
+	tab-size: 2;
+}
