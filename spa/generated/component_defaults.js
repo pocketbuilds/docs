@@ -1,0 +1,1 @@
+const allComponentDefaults={accordion:{name:"accordion",components:[]},markdown:{name:"markdown",body:{markdown:"",rendered:""}},rich_text:{name:"rich_text",body:""}};export default allComponentDefaults

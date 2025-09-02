@@ -1,0 +1,1 @@
+const allSchemas={docs:{title:{type:"text"},group:{type:"reference",options:[{type:"groups",search:["title"],result:"path"}]},order:{type:"number"},components:{type:"component",options:["accordion","markdown","rich_text"]}},groups:{title:{type:"text"},order:{type:"number"},components:{type:"component",options:["accordion","markdown","rich_text"]}}};export default allSchemas

@@ -1,0 +1,1 @@
+const allComponentSchemas={accordion:{name:{type:"text",options:["hidden"]},components:{type:"component",options:["markdown","rich_text"]}},markdown:{name:{type:"text",options:["hidden"]},body:{type:"markdown",options:[]}},rich_text:{name:{type:"text",options:["hidden"]},body:{type:"wysiwyg",options:["bold","italic","link","unlink"]}}};export default allComponentSchemas

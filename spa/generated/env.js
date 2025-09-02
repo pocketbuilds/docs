@@ -1,0 +1,1 @@
+export let env={local:!1,baseurl:"/",routes:{docs:":fields(group)/:filename",groups:":filename"},types:["docs","groups"],singleTypes:["_index"],fingerprint:"WorAwiLBxz",entrypointHTML:"global/html.svelte",entrypointJS:"spa",sitevars:null,cms:{provider:"",repo:"",redirectUrl:"",appId:"",branch:""}}
