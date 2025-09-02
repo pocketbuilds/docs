@@ -11,22 +11,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup Node
-        uses: actions/setup-node@v2-beta
-        with:
-          node-verion: '13'
-
-      - name: Download Plenti
-        run: wget -c $(curl -s https://api.github.com/repos/plentico/plenti/releases/latest | grep -o 'http.*linux_64-bit.tar.gz')
-
-      - name: Unpack Plenti
-        run: tar -zxvf *_linux_64-bit.tar.gz
-
       - name: Install node packages
-        run: npm install
+        uses: docker://plentico/plenti:latest
+        with:
+          entrypoint: /plenti
+          args: npm install
 
       - name: Build
-        run: ./plenti build
+        uses: docker://plentico/plenti:latest
+        with:
+          entrypoint: /plenti
+          args: build
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
