@@ -11,11 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install node packages
-        uses: docker://plentico/plenti:latest
+      - name: Setup Node
+        uses: actions/setup-node@v2-beta
         with:
-          entrypoint: /plenti
-          args: npm install
+          node-verion: '13'
+
+      - name: Install node packages
+        run: npm install
 
       - name: Build
         uses: docker://plentico/plenti:latest
