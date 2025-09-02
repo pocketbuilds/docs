@@ -1,1 +1,0 @@
-const allDefaults=[{pager:null,type:"docs",path:"/-defaults",filepath:"content/docs/_defaults.json",filename:"_defaults.json",fields:{title:"My Doc",group:"",order:0,components:[]}},{pager:null,type:"groups",path:"defaults",filepath:"content/groups/_defaults.json",filename:"_defaults.json",fields:{title:"My Group",order:0,components:[]}}];export default allDefaults
