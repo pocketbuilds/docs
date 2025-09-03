@@ -64,6 +64,7 @@
 		margin: 10px 0;
 	}
 	.content {
+		min-width: 0;
 		flex: 1 1 100%;
 	}
 	footer {
