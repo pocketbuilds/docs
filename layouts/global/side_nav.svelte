@@ -3,7 +3,17 @@
 
 	export let content, docsManager
 
+	const key = "sideNavOpen";
+
 	let open = true;
+
+	if (typeof window !== "undefined") {
+		open = localStorage.getItem(key) !== "false";
+	}
+
+	$: if (typeof window !== "undefined") {
+		localStorage.setItem(key, open);
+	}
 
 </script>
 
