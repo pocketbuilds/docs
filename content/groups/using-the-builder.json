@@ -1,0 +1,13 @@
+{
+	"title": "Using the Builder",
+	"order": 1,
+	"components": [
+		{
+			"name": "markdown",
+			"body": {
+				"markdown": "```\n$ xpb build [<pocketbase_version>]\n    [--output <file>]\n    [--with <module[@version][=replacement]>...]\n    [--config <file>]\n```\n- `<pocketbase_version>` is the desired version of pocketbase to use. It defaults to the value of the env variable `XPB__PB_VERSION`, or to `latest` if that is not defined.\n- `--output` is the output file. Defaults to `pocketbase`.\n- `--with` is used to add an xpb plugin to the build. This flag can be used multiple times to add multiple plugins. It can also be used to change the version of xpb that is used for the build or replace the xpb and pocketbase modules to forked repositories if desired.\n- `--config` should be a filepath to a `.toml` config file that describes your build. This can be used as an alternative to the cli arguments, or it can be used in conjunction with them. Config options described with cli arguments will take precedence and override config options in the config file if applicable.",
+				"rendered": "<pre><code class=\"hljs\">$ xpb build [&lt;pocketbase_version&gt;]\n    [--output &lt;file&gt;]\n    [--with &lt;module[@version][=replacement]&gt;...]\n    [--config &lt;file&gt;]\n</code></pre><ul>\n<li><code>&lt;pocketbase_version&gt;</code> is the desired version of pocketbase to use. It defaults to the value of the env variable <code>XPB__PB_VERSION</code>, or to <code>latest</code> if that is not defined.</li>\n<li><code>--output</code> is the output file. Defaults to <code>pocketbase</code>.</li>\n<li><code>--with</code> is used to add an xpb plugin to the build. This flag can be used multiple times to add multiple plugins. It can also be used to change the version of xpb that is used for the build or replace the xpb and pocketbase modules to forked repositories if desired.</li>\n<li><code>--config</code> should be a filepath to a <code>.toml</code> config file that describes your build. This can be used as an alternative to the cli arguments, or it can be used in conjunction with them. Config options described with cli arguments will take precedence and override config options in the config file if applicable.</li>\n</ul>"
+			}
+		}
+	]
+}
