@@ -1,0 +1,14 @@
+{
+	"title": "Examples",
+	"group": "creating-a-plugin",
+	"order": 1,
+	"components": [
+		{
+			"name": "markdown",
+			"body": {
+				"markdown": "- [created_by](https://github.com/pocketbuilds/created_by)\n- [original_file_names](https://github.com/pocketbuilds/original_file_names)\n- [last_login](https://github.com/pocketbuilds/last_login)\n- [case_insensitive_emails](https://github.com/pocketbuilds/case_insensitive_emails)",
+				"rendered": "<ul>\n<li><a href=\"https://github.com/pocketbuilds/created_by\">created_by</a></li>\n<li><a href=\"https://github.com/pocketbuilds/original_file_names\">original_file_names</a></li>\n<li><a href=\"https://github.com/pocketbuilds/last_login\">last_login</a></li>\n<li><a href=\"https://github.com/pocketbuilds/case_insensitive_emails\">case_insensitive_emails</a></li>\n</ul>"
+			}
+		}
+	]
+}
