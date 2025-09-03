@@ -3,11 +3,17 @@
 	import Head from "./head.svelte";
 	import MainNav from "./main_nav.svelte";
 	import SideNav from "./side_nav.svelte";
+	import { DocsManager } from "../scripts/docs_manager.svelte";
 
 	export let content, layout, allContent, allLayouts, env, user;
 
 	$: if (env.local && user && $user) {
 		$user.login();
+	}
+
+	let docsManager;
+	$: if (content && allContent?.length) {
+		docsManager = new DocsManager(content, allContent);
 	}
 
 </script>
@@ -23,8 +29,8 @@
 				<MainNav />
 			</header>
 			<main>
-				<SideNav {content} {allContent} />
-				<svelte:component this={layout} {...content.fields} {content} {allContent} {allLayouts} {user} />
+				<SideNav {content} {docsManager} />
+				<svelte:component this={layout} {...content.fields} {content} {allContent} {allLayouts} {user} {docsManager} />
 			</main>
 			<footer>
 				<Footer />

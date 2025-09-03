@@ -1,42 +1,26 @@
 <script>
 	import AccordionButton from "../widgets/accordion_button.svelte";
 
-	export let content, allContent;
+	export let content, docsManager
 
 	let open = true;
-
-	$: index = allContent.find(c => c.type === "_index");
-	$: groups = allContent.filter(c => c.type === "groups").sort(sortFunc);
-	$: docs = allContent.filter(c => c.type === "docs");
-
-	function getGroupDocs(group) {
-		return docs.filter(c => c.fields.group === group.path);
-	}
-
-	function sortFunc(a, b) {
-		if (a?.fields?.order != null && b?.fields?.order != null) {
-			return a.fields.order - b.fields.order;
-		}
-		return -1;
-	}
 
 </script>
 
 <nav class:open class:closed={!open}>
 	<ul>
-		<li class:current={index.filename === content.filename}>
-			<a href="/">{index.fields.title}</a>
-		</li>
-		{#each groups as group}
-			<li class="group" class:current={group.filename === content.filename}>
-				<a href="/{group.path}">{group.fields.title}</a>
-			</li>
-			{#each getGroupDocs(group) as doc}
-				<li class="doc" class:current={doc.filename === content.filename}>
+		{#if docsManager?.list?.length}
+			{#each docsManager.list as doc }
+				<li
+					class:index={doc.type === "_index"}
+					class:group={doc.type === "groups"}
+					class:doc={doc.type === "docs"}
+					class:current={doc.filename === content.filename}
+				>
 					<a href="/{doc.path}">{doc.fields.title}</a>
 				</li>
 			{/each}
-		{/each}
+		{/if}
 	</ul>
 	<AccordionButton direction="right" bind:open/>
 </nav>

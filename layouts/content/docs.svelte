@@ -1,5 +1,6 @@
 <script>
-	export let title, content, components, allLayouts, allContent;
+	import DocsPager from "../widgets/docs_pager.svelte";
+	export let title, content, components, allLayouts, allContent, docsManager;
 </script>
 
 <section>
@@ -10,4 +11,6 @@
 			<svelte:component this="{allLayouts["layouts_components_" + component.name + "_svelte"]}" {...component} {content} {allContent} {allLayouts} />
 		{/each}
 	{/if}
+
+	<DocsPager {docsManager} />
 </section>
