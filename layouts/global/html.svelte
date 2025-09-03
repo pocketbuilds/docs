@@ -24,13 +24,15 @@
 		{#if user && $user.isAuthenticated}
 			<svelte:component this={$user.menu} {user} bind:content />
 		{/if}
-		<div class="content" style={(user && $user.isAuthenticated) ? 'height: calc(100vh - 40px);' : ''}>
+		<div class="wrapper" style={(user && $user.isAuthenticated) ? 'height: calc(100vh - 40px);' : ''}>
 			<header>
 				<MainNav />
 			</header>
 			<main>
 				<SideNav {content} {docsManager} />
-				<svelte:component this={layout} {...content.fields} {content} {allContent} {allLayouts} {user} {docsManager} />
+				<div class="content">
+					<svelte:component this={layout} {...content.fields} {content} {allContent} {allLayouts} {user} {docsManager} />
+				</div>
 			</main>
 			<footer>
 				<Footer />
@@ -44,7 +46,7 @@
 		height: 100%;
 		margin: 0;
 	}
-	.content {
+	.wrapper {
 		height: 100vh;
 		display: flex;
 		flex-direction: column;
@@ -60,6 +62,9 @@
 		align-items: stretch;
 		flex: 1 0 auto;
 		margin: 10px 0;
+	}
+	.content {
+		flex: 1 1 100%;
 	}
 	footer {
 		border-top: 1px solid gainsboro;
