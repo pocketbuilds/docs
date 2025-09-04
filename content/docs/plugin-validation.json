@@ -1,0 +1,21 @@
+{
+	"title": "Plugin Validation",
+	"group": "creating-a-plugin",
+	"order": 1,
+	"components": [
+		{
+			"name": "markdown",
+			"body": {
+				"markdown": "You may want to add validation to your plugin configuration to ensure that the user set the config in the intended way before your `plugin.Init` function runs.\n\nTo do this you only need to implement the `validation.Validateable` interface.\n\n```go\ntype Plugin struct {\n\tMySlice []string `json:\"my_slice\"`\n\tMyString string `json:\"my_string\"`\n}\n\n// Validate implements validation.Validatable.\nfunc (p *Plugin) Validate() error {\n\treturn validation.ValidateStruct(p,\n\t\tvalidation.Field(&p.MySlice,\n\t\t\tvalidation.Required,\n\t\t\tvalidation.Each(\n\t\t\t\tis.Email,\n\t\t\t),\n\t\t),\n\t\tvalidation.Field(&p.MyString, validation.Required),\n\t)\n}\n```",
+				"rendered": "<p>You may want to add validation to your plugin configuration to ensure that the user set the config in the intended way before your <code>plugin.Init</code> function runs.</p>\n<p>To do this you only need to implement the <code>validation.Validateable</code> interface.</p>\n<pre><code class=\"hljs language-go\"><span class=\"hljs-keyword\">type</span> Plugin <span class=\"hljs-keyword\">struct</span> {\n\tMySlice []<span class=\"hljs-type\">string</span> <span class=\"hljs-string\">`json:\"my_slice\"`</span>\n\tMyString <span class=\"hljs-type\">string</span> <span class=\"hljs-string\">`json:\"my_string\"`</span>\n}\n\n<span class=\"hljs-comment\">// Validate implements validation.Validatable.</span>\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">func</span> <span class=\"hljs-params\">(p *Plugin)</span></span> Validate() <span class=\"hljs-type\">error</span> {\n\t<span class=\"hljs-keyword\">return</span> validation.ValidateStruct(p,\n\t\tvalidation.Field(&amp;p.MySlice,\n\t\t\tvalidation.Required,\n\t\t\tvalidation.Each(\n\t\t\t\tis.Email,\n\t\t\t),\n\t\t),\n\t\tvalidation.Field(&amp;p.MyString, validation.Required),\n\t)\n}\n</code></pre>"
+			}
+		},
+		{
+			"name": "markdown",
+			"body": {
+				"markdown": "## Prevalidation\n\nYou can always set a default value for your plugin config when you register your plugin, as shown in the [Plugin Config](/creating-a-plugin/plugin-config) section, but in some situations you need access to the pocketbase app in order to determine a default value. You can do this in the Init function, but then it would cause your validation to fail. For this situation, you can use the `xpb.PreValidator` interface.\n\n```go\ntype Plugin struct {\n\tMyFilepath string `json:\"my_filepath\"`\n}\n\nfunc (p *Plugin) PreValidate(app core.App) error {\n\t// Set default filepath in relation to the app data dir.\n\tif p.MyFilepath == \"\" {\n\t\tp.MyFilepath = filepath.Join(app.DataDir(), \"../my_dir/my_file.txt\")\n\t}\n\treturn nil\n}\n```",
+				"rendered": "<h2>Prevalidation</h2>\n<p>You can always set a default value for your plugin config when you register your plugin, as shown in the <a href=\"/creating-a-plugin/plugin-config\">Plugin Config</a> section, but in some situations you need access to the pocketbase app in order to determine a default value. You can do this in the Init function, but then it would cause your validation to fail. For this situation, you can use the <code>xpb.PreValidator</code> interface.</p>\n<pre><code class=\"hljs language-go\"><span class=\"hljs-keyword\">type</span> Plugin <span class=\"hljs-keyword\">struct</span> {\n\tMyFilepath <span class=\"hljs-type\">string</span> <span class=\"hljs-string\">`json:\"my_filepath\"`</span>\n}\n\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">func</span> <span class=\"hljs-params\">(p *Plugin)</span></span> PreValidate(app core.App) <span class=\"hljs-type\">error</span> {\n\t<span class=\"hljs-comment\">// Set default filepath in relation to the app data dir.</span>\n\t<span class=\"hljs-keyword\">if</span> p.MyFilepath == <span class=\"hljs-string\">\"\"</span> {\n\t\tp.MyFilepath = filepath.Join(app.DataDir(), <span class=\"hljs-string\">\"../my_dir/my_file.txt\"</span>)\n\t}\n\t<span class=\"hljs-keyword\">return</span> <span class=\"hljs-literal\">nil</span>\n}\n</code></pre>"
+			}
+		}
+	]
+}

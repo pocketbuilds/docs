@@ -1,7 +1,7 @@
 {
 	"title": "Examples",
 	"group": "creating-a-plugin",
-	"order": 1,
+	"order": 2,
 	"components": [
 		{
 			"name": "markdown",
