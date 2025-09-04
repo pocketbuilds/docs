@@ -1,0 +1,78 @@
+<!doctype html><html data-content-filepath=content/groups/custom-application.json lang=en><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Custom Application</title>
+<script type=module src=/spa/core/main.js?ZnErtoUVQs></script><link rel=icon type=image/x-icon href=/pocketbuilds.svg><link rel=stylesheet href=/css/global.css?ZnErtoUVQs><link rel=stylesheet href=/spa/bundle.css?ZnErtoUVQs><body class=svelte-1jegtz2><div class="wrapper svelte-1jegtz2"><header class=svelte-1jegtz2><nav class=svelte-1fh7znp><div class="left svelte-1fh7znp"><div class="brand svelte-1fh7znp"><a href=https://pocketbuilds.com/ class=svelte-1fh7znp><img src=/pocketbuilds.svg alt="PocketBuilds logo">
+<span>Pocket<strong>Builds</strong></span></a></div><div>Documentation</div></div><div class="right svelte-1fh7znp"><div class=github><a href=https://github.com/pocketbuilds/xpb><img src=/github.svg alt="GitHub Octocat Icon"></a></div></div></nav></header><main class=svelte-1jegtz2><nav class="svelte-a0t8d9 open"><ul class=svelte-a0t8d9><li class="svelte-a0t8d9 index"><a href=/ class=svelte-a0t8d9>PocketBuilds</a><li class="svelte-a0t8d9 group"><a href=/installing-xpb class=svelte-a0t8d9>Installing XPB</a><li class="svelte-a0t8d9 group"><a href=/using-the-builder class=svelte-a0t8d9>Using the Builder</a><li class="svelte-a0t8d9 group current"><a href=/custom-application class=svelte-a0t8d9>Custom Application</a><li class="svelte-a0t8d9 group"><a href=/creating-a-plugin class=svelte-a0t8d9>Creating a Plugin</a><li class="svelte-a0t8d9 doc"><a href=/creating-a-plugin/plugin-config class=svelte-a0t8d9>Plugin Config</a><li class="svelte-a0t8d9 doc"><a href=/creating-a-plugin/plugin-examples class=svelte-a0t8d9>Examples</a></ul><button type=button class="svelte-1wyyo4v vertical"><div class="inner svelte-1wyyo4v"><svg width="25px" height="25px" viewBox="0 0 24 24" style="transform: scale(1); color: white; background: transparent; stroke-width: 2;"><use href="/icons/chevron-compact-left.svg"></use></svg></div></button></nav><div class="content svelte-1jegtz2"><section><h1>Custom Application</h1><p>You can still take advantage of the PocketBuilds ecosystem even when building a custom pocketbase application. In fact, using xpb in this way is a great way to organize and modularize your project.</p><pre><code class=hljs>my_project/
+ hooks/
+ hooks.go
+ api/
+ api.go
+ go.mod
+ go.sum
+ main.go
+</code></pre><pre><code class="hljs language-go"><span class=hljs-comment>// main.go</span>
+module my_project
+
+<span class=hljs-keyword>import</span> (
+	<span class=hljs-comment>// xpb and default, built-in plugins</span>
+	<span class=hljs-string>"github.com/pocketbuilds/xpb"</span>
+	_ <span class=hljs-string>"github.com/pocketbuilds/xpb/pkg/plugins/defaults"</span>
+
+	<span class=hljs-comment>// project plugins</span>
+	_ <span class=hljs-string>"my_project/hooks"</span>
+	_ <span class=hljs-string>"my_project/api"</span>
+
+	<span class=hljs-comment>// external plugins</span>
+	_ <span class=hljs-string>"github.com/pocketbuilds/created_by"</span>
+	_ <span class=hljs-string>"github.com/pocketbuilds/last_login"</span>
+)
+
+<span class=hljs-function><span class=hljs-keyword>func</span> <span class=hljs-title>main</span><span class=hljs-params>()</span></span> {
+	app := pocketbase.New()
+
+	<span class=hljs-keyword>if</span> err := xpb.Setup(app); err != <span class=hljs-literal>nil</span> {
+		log.Fatal(err)
+	}
+
+	<span class=hljs-keyword>if</span> err := app.Start(); err != <span class=hljs-literal>nil</span> {
+		log.Fatal(err)
+	}
+}
+</code></pre><pre><code class="hljs language-go"><span class=hljs-comment>// api.go</span>
+module api
+
+<span class=hljs-keyword>type</span> Plugin <span class=hljs-keyword>struct</span> {
+	MyApiPrefix <span class=hljs-type>string</span> <span class=hljs-string>`json:"my_api_prefix"`</span>
+}
+
+<span class=hljs-function><span class=hljs-keyword>func</span> <span class=hljs-title>init</span><span class=hljs-params>()</span></span> {
+	xpb.Register(&amp;Plugin{
+		MyApiPrefix: <span class=hljs-string>"my-api"</span>,
+	})
+}
+
+<span class=hljs-comment>// Name implements xpb.Plugin.</span>
+<span class=hljs-function><span class=hljs-keyword>func</span> <span class=hljs-params>(p *Plugin)</span></span> Name() <span class=hljs-type>string</span> {
+	<span class=hljs-keyword>return</span> <span class=hljs-string>"my_project_api"</span> 
+}
+<span class=hljs-comment>// Version implements xpb.Plugin.</span>
+<span class=hljs-function><span class=hljs-keyword>func</span> <span class=hljs-params>(p *Plugin)</span></span> Version() <span class=hljs-type>string</span> {
+	<span class=hljs-keyword>return</span> <span class=hljs-string>""</span>
+}
+
+<span class=hljs-function><span class=hljs-keyword>func</span> <span class=hljs-params>(p *Plugin)</span></span> Description() <span class=hljs-type>string</span> {
+	<span class=hljs-keyword>return</span> <span class=hljs-string>""</span>
+}
+
+<span class=hljs-function><span class=hljs-keyword>func</span> <span class=hljs-params>(p *Plugin)</span></span> Init(app core.App) <span class=hljs-type>error</span> {
+	app.OnServe().BindFunc(<span class=hljs-function><span class=hljs-keyword>func</span><span class=hljs-params>(se *core.ServeEvent)</span></span> <span class=hljs-type>error</span> {
+		<span class=hljs-keyword>var</span> group = e.Router.Group(p.MyApiPrefix)
+		group.GET(<span class=hljs-string>"/hello/{name}"</span>, <span class=hljs-function><span class=hljs-keyword>func</span><span class=hljs-params>(re *core.RequestEvent)</span></span> <span class=hljs-type>error</span> {
+			name := e.Request.PathValue(<span class=hljs-string>"name"</span>)
+
+			<span class=hljs-keyword>return</span> e.String(http.StatusOK, <span class=hljs-string>"Hello "</span> + name)
+		})
+		<span class=hljs-keyword>return</span> e.Next()
+	})
+	<span class=hljs-keyword>return</span> <span class=hljs-literal>nil</span>
+}
+</code></pre><div class="pager svelte-1x0xo3c"><div class=left><a href=/using-the-builder>Previous: Using the Builder</a></div><div class=right><a href=/creating-a-plugin>Next: Creating a Plugin</a></div></div></section></div></main><footer class=svelte-1jegtz2><div class="wrapper svelte-13na8n2"><div class="left svelte-13na8n2"></div><div class="right svelte-13na8n2"><div class="plenti svelte-13na8n2"><a href=https://plenti.co/ class=svelte-13na8n2>Made with
+<img src=/plenti.svg alt="plentico planarian"></a></div></div></div></footer></div>
