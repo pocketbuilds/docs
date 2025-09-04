@@ -1,3 +1,12 @@
 {
-	"title": "PocketBuilds Docs"
+	"title": "PocketBuilds",
+	"components": [
+		{
+			"name": "markdown",
+			"body": {
+				"markdown": "A [pocketbase](https://pocketbase.io/) plugin ecosystem and set of tools for building custom pocketbase binaries with plugins written in Go.",
+				"rendered": "<p>A <a href=\"https://pocketbase.io/\">pocketbase</a> plugin ecosystem and set of tools for building custom pocketbase binaries with plugins written in Go.</p>"
+			}
+		}
+	]
 }

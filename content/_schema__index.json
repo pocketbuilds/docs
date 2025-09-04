@@ -1,0 +1,13 @@
+{
+  "title": {
+    "type": "text"
+  },
+  "components": {
+    "type": "component",
+    "options": [
+      "accordion",
+      "markdown",
+      "rich_text"
+    ]
+  }
+}
