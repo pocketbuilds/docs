@@ -1,6 +1,6 @@
 {
 	"title": "Creating a Plugin",
-	"order": 2,
+	"order": 3,
 	"components": [
 		{
 			"name": "markdown",

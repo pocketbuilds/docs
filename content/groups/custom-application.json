@@ -1,0 +1,34 @@
+{
+	"title": "Custom Application",
+	"order": 2,
+	"components": [
+		{
+			"name": "markdown",
+			"body": {
+				"markdown": "You can still take advantage of the PocketBuilds ecosystem even when building a custom pocketbase application. In fact, using xpb in this way is a great way to organize and modularize  your project.",
+				"rendered": "<p>You can still take advantage of the PocketBuilds ecosystem even when building a custom pocketbase application. In fact, using xpb in this way is a great way to organize and modularize  your project.</p>"
+			}
+		},
+		{
+			"name": "markdown",
+			"body": {
+				"markdown": "```\nmy_project/\n  hooks/\n    hooks.go\n  api/\n    api.go\n  go.mod\n  go.sum\n  main.go\n```",
+				"rendered": "<pre><code class=\"hljs\">my_project/\n  hooks/\n    hooks.go\n  api/\n    api.go\n  go.mod\n  go.sum\n  main.go\n</code></pre>"
+			}
+		},
+		{
+			"name": "markdown",
+			"body": {
+				"markdown": "```go\n// main.go\nmodule my_project\n\nimport (\n\t// xpb and default, built-in plugins\n\t\"github.com/pocketbuilds/xpb\"\n\t_ \"github.com/pocketbuilds/xpb/pkg/plugins/defaults\"\n\n\t// project plugins\n\t_ \"my_project/hooks\"\n\t_ \"my_project/api\"\n\n\t// external plugins\n\t_ \"github.com/pocketbuilds/created_by\"\n\t_ \"github.com/pocketbuilds/last_login\"\n)\n\nfunc main() {\n\tapp := pocketbase.New()\n\n\tif err := xpb.Setup(app); err != nil {\n\t\tlog.Fatal(err)\n\t}\n\n\tif err := app.Start(); err != nil {\n\t\tlog.Fatal(err)\n\t}\n}",
+				"rendered": "<pre><code class=\"hljs language-go\"><span class=\"hljs-comment\">// main.go</span>\nmodule my_project\n\n<span class=\"hljs-keyword\">import</span> (\n\t<span class=\"hljs-comment\">// xpb and default, built-in plugins</span>\n\t<span class=\"hljs-string\">\"github.com/pocketbuilds/xpb\"</span>\n\t_ <span class=\"hljs-string\">\"github.com/pocketbuilds/xpb/pkg/plugins/defaults\"</span>\n\n\t<span class=\"hljs-comment\">// project plugins</span>\n\t_ <span class=\"hljs-string\">\"my_project/hooks\"</span>\n\t_ <span class=\"hljs-string\">\"my_project/api\"</span>\n\n\t<span class=\"hljs-comment\">// external plugins</span>\n\t_ <span class=\"hljs-string\">\"github.com/pocketbuilds/created_by\"</span>\n\t_ <span class=\"hljs-string\">\"github.com/pocketbuilds/last_login\"</span>\n)\n\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">func</span> <span class=\"hljs-title\">main</span><span class=\"hljs-params\">()</span></span> {\n\tapp := pocketbase.New()\n\n\t<span class=\"hljs-keyword\">if</span> err := xpb.Setup(app); err != <span class=\"hljs-literal\">nil</span> {\n\t\tlog.Fatal(err)\n\t}\n\n\t<span class=\"hljs-keyword\">if</span> err := app.Start(); err != <span class=\"hljs-literal\">nil</span> {\n\t\tlog.Fatal(err)\n\t}\n}\n</code></pre>"
+			}
+		},
+		{
+			"name": "markdown",
+			"body": {
+				"markdown": "```go\n// api.go\nmodule api\n\ntype Plugin struct {\n\tMyApiPrefix string `json:\"my_api_prefix\"`\n}\n\nfunc init() {\n\txpb.Register(&Plugin{\n\t\tMyApiPrefix: \"my-api\",\n\t})\n}\n\n// Name implements xpb.Plugin.\nfunc (p *Plugin) Name() string {\n\treturn \"my_project_api\"  \n}\n// Version implements xpb.Plugin.\nfunc (p *Plugin) Version() string {\n\treturn \"\"\n}\n\nfunc (p *Plugin) Description() string {\n\treturn \"\"\n}\n\nfunc (p *Plugin) Init(app core.App) error {\n\tapp.OnServe().BindFunc(func(se *core.ServeEvent) error {\n\t\tvar group = e.Router.Group(p.MyApiPrefix)\n\t\tgroup.GET(\"/hello/{name}\", func(re *core.RequestEvent) error {\n\t\t\tname := e.Request.PathValue(\"name\")\n\n\t\t\treturn e.String(http.StatusOK, \"Hello \" + name)\n\t\t})\n\t\treturn e.Next()\n\t})\n\treturn nil\n}\n```",
+				"rendered": "<pre><code class=\"hljs language-go\"><span class=\"hljs-comment\">// api.go</span>\nmodule api\n\n<span class=\"hljs-keyword\">type</span> Plugin <span class=\"hljs-keyword\">struct</span> {\n\tMyApiPrefix <span class=\"hljs-type\">string</span> <span class=\"hljs-string\">`json:\"my_api_prefix\"`</span>\n}\n\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">func</span> <span class=\"hljs-title\">init</span><span class=\"hljs-params\">()</span></span> {\n\txpb.Register(&amp;Plugin{\n\t\tMyApiPrefix: <span class=\"hljs-string\">\"my-api\"</span>,\n\t})\n}\n\n<span class=\"hljs-comment\">// Name implements xpb.Plugin.</span>\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">func</span> <span class=\"hljs-params\">(p *Plugin)</span></span> Name() <span class=\"hljs-type\">string</span> {\n\t<span class=\"hljs-keyword\">return</span> <span class=\"hljs-string\">\"my_project_api\"</span>  \n}\n<span class=\"hljs-comment\">// Version implements xpb.Plugin.</span>\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">func</span> <span class=\"hljs-params\">(p *Plugin)</span></span> Version() <span class=\"hljs-type\">string</span> {\n\t<span class=\"hljs-keyword\">return</span> <span class=\"hljs-string\">\"\"</span>\n}\n\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">func</span> <span class=\"hljs-params\">(p *Plugin)</span></span> Description() <span class=\"hljs-type\">string</span> {\n\t<span class=\"hljs-keyword\">return</span> <span class=\"hljs-string\">\"\"</span>\n}\n\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">func</span> <span class=\"hljs-params\">(p *Plugin)</span></span> Init(app core.App) <span class=\"hljs-type\">error</span> {\n\tapp.OnServe().BindFunc(<span class=\"hljs-function\"><span class=\"hljs-keyword\">func</span><span class=\"hljs-params\">(se *core.ServeEvent)</span></span> <span class=\"hljs-type\">error</span> {\n\t\t<span class=\"hljs-keyword\">var</span> group = e.Router.Group(p.MyApiPrefix)\n\t\tgroup.GET(<span class=\"hljs-string\">\"/hello/{name}\"</span>, <span class=\"hljs-function\"><span class=\"hljs-keyword\">func</span><span class=\"hljs-params\">(re *core.RequestEvent)</span></span> <span class=\"hljs-type\">error</span> {\n\t\t\tname := e.Request.PathValue(<span class=\"hljs-string\">\"name\"</span>)\n\n\t\t\t<span class=\"hljs-keyword\">return</span> e.String(http.StatusOK, <span class=\"hljs-string\">\"Hello \"</span> + name)\n\t\t})\n\t\t<span class=\"hljs-keyword\">return</span> e.Next()\n\t})\n\t<span class=\"hljs-keyword\">return</span> <span class=\"hljs-literal\">nil</span>\n}\n</code></pre>"
+			}
+		}
+	]
+}

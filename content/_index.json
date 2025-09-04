@@ -7,6 +7,13 @@
 				"markdown": "A [pocketbase](https://pocketbase.io/) plugin ecosystem and set of tools for building custom pocketbase binaries with plugins written in Go.",
 				"rendered": "<p>A <a href=\"https://pocketbase.io/\">pocketbase</a> plugin ecosystem and set of tools for building custom pocketbase binaries with plugins written in Go.</p>"
 			}
+		},
+		{
+			"name": "markdown",
+			"body": {
+				"markdown": "You can browse for plugins and even download pocketbase builds directly from the [PocketBuilds](https://pocketbuilds.com) website (coming soon).",
+				"rendered": "<p>You can browse for plugins and even download pocketbase builds directly from the <a href=\"https://pocketbuilds.com\">PocketBuilds</a> website (coming soon).</p>"
+			}
 		}
 	]
 }
