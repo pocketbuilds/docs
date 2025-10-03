@@ -47,6 +47,7 @@
 		padding-left: 0;
 		overflow: hidden;
 		overflow-y: auto;
+		padding: 0 20px;
 	}
 	nav.open ul {
 		width: auto;
@@ -55,9 +56,15 @@
 	nav.closed ul {
 		width: 0;
 		min-width: 0;
+		padding: 10px;
+	}
+	a {
+		padding: 2px 10px;
 	}
 	.current a {
-		color: green;
+		color: var(--primary-dark);
+		background: gainsboro;
+		border-radius: 3px;
 	}
 	li {
 		font-size: 1.1rem;

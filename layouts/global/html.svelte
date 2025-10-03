@@ -34,9 +34,7 @@
 					<svelte:component this={layout} {...content.fields} {content} {allContent} {allLayouts} {user} {docsManager} />
 				</div>
 			</main>
-			<footer>
-				<Footer />
-			</footer>
+			<Footer />
 		</div>
 	</body>
 </html>
@@ -50,7 +48,6 @@
 		height: 100vh;
 		display: flex;
 		flex-direction: column;
-		margin: 0 10px;
 	}
 	header {
 		border-bottom: 1px solid gainsboro;
@@ -61,15 +58,10 @@
 		display: flex;
 		align-items: stretch;
 		flex: 1 0 auto;
-		margin: 10px 0;
 	}
 	.content {
 		min-width: 0;
 		flex: 1 1 100%;
-	}
-	footer {
-		border-top: 1px solid gainsboro;
-		padding: 10px 0;
-		flex-shrink: 0;
+		padding: 0 20px;
 	}
 </style>

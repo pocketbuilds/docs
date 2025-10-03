@@ -1,3 +1,8 @@
+:root {
+	--primary: #075062;
+	--primary-lightest: #e5f9ff;
+	--primary-dark: #033e4e;
+}
 * {
 	font-family: "Source Sans 3", sans-serif, emoji;
 	line-height: 1.5;
@@ -7,4 +12,13 @@ code * {
 	font-family: monospace;
 	font-family: "Ubuntu Mono", monospace, emoji;
 	tab-size: 2;
+}
+.container {
+	max-width: 2000px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+a {
+	color: var(--primary);
+	text-decoration: none;
 }

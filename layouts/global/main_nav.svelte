@@ -1,4 +1,4 @@
-<nav>
+<nav class="container">
 	<div class="left">
 		<div class="brand">
 			<a href="https://pocketbuilds.com/">

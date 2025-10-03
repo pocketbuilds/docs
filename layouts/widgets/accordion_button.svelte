@@ -41,17 +41,20 @@
 		display: flex;
 		justify-content: center;
 		align-items: stretch;
+		cursor: pointer;
 	}
 	button.horizontal {
 		width: 100%;
-		height: 2px;
+		height: 1px;
 		flex-direction: column;
 		margin: 8px 0;
 	}
+	button.horizontal :global(svg) {
+		height: 15px;
+	}
 	button.vertical {
-		width: 2px;
+		width: 1px;
 		flex-direction: row;
-		margin: 0 8px;
 	}
 	button .inner {
 		background-color: transparent;
@@ -67,8 +70,8 @@
 	}
 	.inner :global(svg) {
 		color: black !important;
-	}
-	.inner:hover :global(svg) {
-		color: green !important;
+		border: 1px solid gray;
+		background-color: white !important;
+		border-radius: 2px;
 	}
 </style>
