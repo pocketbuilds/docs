@@ -1,9 +1,10 @@
 * {
-	font-family: sans-serif;
+	font-family: "Source Sans 3", sans-serif, emoji;
 	line-height: 1.5;
 }
 code,
 code * {
 	font-family: monospace;
+	font-family: "Ubuntu Mono", monospace, emoji;
 	tab-size: 2;
 }

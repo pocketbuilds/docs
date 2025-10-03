@@ -13,6 +13,7 @@
 	<script type="module" src="/spa/core/main.js?{env.fingerprint}"></script>
 
 	<link rel="icon" type="image/x-icon" href="/pocketbuilds.svg">
+	<link rel='stylesheet' href="/css/fonts.css?{env.fingerprint}">
 	<link rel='stylesheet' href="/css/global.css?{env.fingerprint}">
 	<link rel='stylesheet' href="/spa/bundle.css?{env.fingerprint}">
 </head>
