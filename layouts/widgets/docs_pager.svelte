@@ -26,6 +26,7 @@
 <style>
 	.pager {
 		display: flex;
+		gap: 20px;
 		align-items: center;
 		justify-content: space-between;
 	}

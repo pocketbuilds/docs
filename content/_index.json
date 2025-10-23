@@ -4,15 +4,22 @@
 		{
 			"name": "markdown",
 			"body": {
-				"markdown": "A [pocketbase](https://pocketbase.io/) plugin ecosystem and set of tools for building custom pocketbase binaries with plugins written in Go.",
-				"rendered": "<p>A <a href=\"https://pocketbase.io/\">pocketbase</a> plugin ecosystem and set of tools for building custom pocketbase binaries with plugins written in Go.</p>"
+				"markdown": "PocketBuilds is plugin ecosystem and set of tools for building custom [PocketBase](https://pocketbase.io/) binaries that have been extended with modular Go code.",
+				"rendered": "<p>PocketBuilds is plugin ecosystem and set of tools for building custom <a href=\"https://pocketbase.io/\">PocketBase</a> binaries that have been extended with modular Go code.</p>"
 			}
 		},
 		{
 			"name": "markdown",
 			"body": {
-				"markdown": "You can browse for plugins and even download pocketbase builds directly from the [PocketBuilds](https://pocketbuilds.com) website (coming soon).",
-				"rendered": "<p>You can browse for plugins and even download pocketbase builds directly from the <a href=\"https://pocketbuilds.com\">PocketBuilds</a> website (coming soon).</p>"
+				"markdown": "You can browse for plugins that extend system functionality and create builds + download PocketBase binaries directly from the [PocketBuilds website](https://pocketbuilds.com).",
+				"rendered": "<p>You can browse for plugins that extend system functionality and create builds + download PocketBase binaries directly from the <a href=\"https://pocketbuilds.com\">PocketBuilds website</a>.</p>"
+			}
+		},
+		{
+			"name": "markdown",
+			"body": {
+				"markdown": "PocketBuilds uses an open source project called [xpb](https://github.com/pocketbuilds/xpb) under the hood to run all the builds. You can use xpb directly in your terminal, and even add your own custom plugins to your projects.",
+				"rendered": "<p>PocketBuilds uses an open source project called <a href=\"https://github.com/pocketbuilds/xpb\">xpb</a> under the hood to run all the builds. You can use xpb directly in your terminal, and even add your own custom plugins to your projects.</p>"
 			}
 		}
 	]
