@@ -7,7 +7,8 @@
     "options": [
       "accordion",
       "markdown",
-      "rich_text"
+      "rich_text",
+      "video"
     ]
   }
 }

@@ -21,6 +21,10 @@
 				"markdown": "PocketBuilds uses an open source project called [xpb](https://github.com/pocketbuilds/xpb) under the hood to run all the builds. You can use xpb directly in your terminal, and even add your own custom plugins to your projects.",
 				"rendered": "<p>PocketBuilds uses an open source project called <a href=\"https://github.com/pocketbuilds/xpb\">xpb</a> under the hood to run all the builds. You can use xpb directly in your terminal, and even add your own custom plugins to your projects.</p>"
 			}
+		},
+		{
+			"name": "video",
+			"video": "intro_to_pocketbuilds"
 		}
 	]
 }
