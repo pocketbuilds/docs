@@ -1,13 +1,13 @@
 {
-	"title": "Examples",
+	"title": "Example Plugins",
 	"group": "creating-a-plugin",
 	"order": 2,
 	"components": [
 		{
 			"name": "markdown",
 			"body": {
-				"markdown": "- [created_by](https://github.com/pocketbuilds/created_by)\n- [original_file_names](https://github.com/pocketbuilds/original_file_names)\n- [last_login](https://github.com/pocketbuilds/last_login)\n- [case_insensitive_emails](https://github.com/pocketbuilds/case_insensitive_emails)",
-				"rendered": "<ul>\n<li><a href=\"https://github.com/pocketbuilds/created_by\">created_by</a></li>\n<li><a href=\"https://github.com/pocketbuilds/original_file_names\">original_file_names</a></li>\n<li><a href=\"https://github.com/pocketbuilds/last_login\">last_login</a></li>\n<li><a href=\"https://github.com/pocketbuilds/case_insensitive_emails\">case_insensitive_emails</a></li>\n</ul>"
+				"markdown": "- [original_file_names](https://github.com/pocketbuilds/original_file_names)\n- [notion_integrations](https://github.com/pocketbuilds/notion_integration)\n- [last_login](https://github.com/pocketbuilds/last_login)\n- [import_export](https://github.com/pocketbuilds/import_export)\n- [fts](https://github.com/pocketbuilds/fts)\n- [created_by](https://github.com/pocketbuilds/created_by)\n- [case_insensitive_emails](https://github.com/pocketbuilds/case_insensitive_emails)",
+				"rendered": "<ul>\n<li><a href=\"https://github.com/pocketbuilds/original_file_names\">original_file_names</a></li>\n<li><a href=\"https://github.com/pocketbuilds/notion_integration\">notion_integrations</a></li>\n<li><a href=\"https://github.com/pocketbuilds/last_login\">last_login</a></li>\n<li><a href=\"https://github.com/pocketbuilds/import_export\">import_export</a></li>\n<li><a href=\"https://github.com/pocketbuilds/fts\">fts</a></li>\n<li><a href=\"https://github.com/pocketbuilds/created_by\">created_by</a></li>\n<li><a href=\"https://github.com/pocketbuilds/case_insensitive_emails\">case_insensitive_emails</a></li>\n</ul>"
 			}
 		}
 	]
