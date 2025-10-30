@@ -19,6 +19,18 @@
 				return hljs.highlight(code, { language }).value;
 			},
 		}),
+		{
+			renderer: {
+				heading({ tokens, depth }) {
+					const text = this.parser.parseInline(tokens);
+					const raw = unescape(text)
+						.trim()
+						.replace(/<[!\/a-z].*?>/gi, '');
+					const id = sluggify(raw);
+					return `<h${depth} id="${id}">${text}</h${depth}>\n`;
+				},
+			},
+		},
 	);
 
 	let disabled, hidden;
@@ -35,6 +47,30 @@
 		htmlStr = sanitizer.SanitizeHtml(htmlStr);
 		field.rendered = htmlStr;
 	}
+
+
+	const unescapeTest = /&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/ig;
+
+	function unescape(html) {
+		// explicitly match decimal, hex, and named HTML entities
+		return html.replace(unescapeTest, (_, n) => {
+			n = n.toLowerCase();
+			if (n === 'colon') return ':';
+			if (n.charAt(0) === '#') {
+				return n.charAt(1) === 'x'
+					? String.fromCharCode(parseInt(n.substring(2), 16))
+					: String.fromCharCode(+n.substring(1));
+			}
+			return '';
+		});
+	}
+
+	function sluggify(str) {
+		return str.toLowerCase()
+			.replace(/[^\w ]+/g, "")
+			.replace(/ +/g, "-");
+	}
+
 </script>
 
 {#if !hidden}
