@@ -1,0 +1,14 @@
+{
+	"title": "Console Commands",
+	"group": "creating-a-plugin",
+	"order": 2,
+	"components": [
+		{
+			"name": "markdown",
+			"body": {
+				"markdown": "You can register a custom console command in the `Init` function. This is not immediately obvious since the interface `core.App` does not by itself have any access to the `RootCmd` struct, but it *can* be accessed using interface casting:\n\n```go\nfunc (p *Plugin) Init(app core.App) error {\n\tif app, ok := app.(*pocketbase.PocketBase); ok {\n\t\trootCmd := app.RootCmd\n\n\t\trootCmd.AddCommand(&cobra.Command{\n\t\t\tUse: \"hello\",\n\t\t\tRun: func(cmd *cobra.Command, args []string) {\n\t\t\t\tlog.Pringln(\"Hello, world!\")\n\t\t\t},\n\t\t})\n\t}\n}\n```",
+				"rendered": "<p>You can register a custom console command in the <code>Init</code> function. This is not immediately obvious since the interface <code>core.App</code> does not by itself have any access to the <code>RootCmd</code> struct, but it <em>can</em> be accessed using interface casting:</p>\n<pre><code class=\"hljs language-go\"><span class=\"hljs-function\"><span class=\"hljs-keyword\">func</span> <span class=\"hljs-params\">(p *Plugin)</span></span> Init(app core.App) <span class=\"hljs-type\">error</span> {\n\t<span class=\"hljs-keyword\">if</span> app, ok := app.(*pocketbase.PocketBase); ok {\n\t\trootCmd := app.RootCmd\n\n\t\trootCmd.AddCommand(&amp;cobra.Command{\n\t\t\tUse: <span class=\"hljs-string\">\"hello\"</span>,\n\t\t\tRun: <span class=\"hljs-function\"><span class=\"hljs-keyword\">func</span><span class=\"hljs-params\">(cmd *cobra.Command, args []<span class=\"hljs-type\">string</span>)</span></span> {\n\t\t\t\tlog.Pringln(<span class=\"hljs-string\">\"Hello, world!\"</span>)\n\t\t\t},\n\t\t})\n\t}\n}\n</code></pre>"
+			}
+		}
+	]
+}
