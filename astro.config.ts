@@ -11,7 +11,7 @@ import transformLucideImports, {
 } from "vite-plugin-transform-lucide-imports";
 
 function getSite() {
-  if (import.meta.env.DEV) {
+  if (process.env.NODE_ENV !== "production") {
     return "http://localhost:4321";
   }
   if (process.env.SITE_URL) {
@@ -30,24 +30,26 @@ function getSite() {
   return "https://docs.pocketbuilds.com";
 }
 
+function getBase() {
+  if (process.env.NODE_ENV !== "production") return "/";
+  if (process.env.BASE_PATH) {
+    const normalized = process.env.BASE_PATH.replace(/\/+$/, "");
+    if (normalized === "" || normalized === "/") return "/";
+    return normalized.startsWith("/") ? normalized : `/${normalized}`;
+  }
+  const repository = process.env.GITHUB_REPOSITORY;
+  const owner =
+    process.env.GITHUB_REPOSITORY_OWNER ?? repository?.split("/")[0];
+  const repo = repository?.split("/")[1];
+  if (owner && repo && repo !== `${owner}.github.io`) {
+    return `/${repo}`;
+  }
+  return "/";
+}
+
 export default defineConfig({
   site: getSite(),
-  base: (() => {
-    if (!import.meta.env.PROD) return "/";
-    if (process.env.BASE_PATH) {
-      const normalized = process.env.BASE_PATH.replace(/\/+$/, "");
-      if (normalized === "" || normalized === "/") return "/";
-      return normalized.startsWith("/") ? normalized : `/${normalized}`;
-    }
-    const repository = process.env.GITHUB_REPOSITORY;
-    const owner =
-      process.env.GITHUB_REPOSITORY_OWNER ?? repository?.split("/")[0];
-    const repo = repository?.split("/")[1];
-    if (owner && repo && repo !== `${owner}.github.io`) {
-      return `/${repo}`;
-    }
-    return "/";
-  })(),
+  base: getBase(),
   output: "static",
   prefetch: true,
   trailingSlash: "never",
@@ -82,7 +84,6 @@ export default defineConfig({
     optimizeDeps: {
       exclude: ["@lucide/svelte"],
     },
-
     build: {
       rollupOptions: {
         external: ["/pagefind/pagefind.js"],
