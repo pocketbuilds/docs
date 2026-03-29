@@ -1,0 +1,37 @@
+---
+title: Plugin Config
+description: Configure plugin options via pocketbuilds.toml and environment variables.
+---
+
+The xpb runtime uses a `pocketbuilds.toml` file to allow for the user to customize plugin config options. This file is read, converted to JSON, and then automatically unmarshalled into your plugin struct.
+
+Consider the example plugin below:
+
+```go
+type Plugin struct {
+	MyVar string `json:"my_var" env:"MY_VAR"`
+}
+
+func init() {
+	xpb.Register(&Plugin{
+		MyVar: "Hello, xpb!",
+	})
+}
+
+func (p *Plugin) Name() string {
+	return "my_plugin"
+}
+```
+
+This plugin defines a config variable of type string called `MyVar`. This variable will be populated with the `my_plugin.my_var` value in pocketbuilds.toml. This happens before your plugin's `Init` function is called. See the corresponding TOML below:
+
+```toml
+[my_plugin]
+my_var = "Hello from TOML"
+```
+
+The struct tag `env` can be used to specify an environment variable that will be set into your plugin struct. The environmental variable naming convention is: `XPB__PLUGIN_NAME__VARIABLE_NAME`, so for the above example the corresponding environment variable would be `XPB__MY_PLUGIN__MY_VAR`. The environment variable takes precedence over config from the file and will override any configuration from there.
+
+You also may notice when the plugin is registered in the `init` function, it sets an initial value for `MyVar`. This is useful for setting your plugin's default config values if the user does not set it themselves.
+
+For more custom config unmarshaling, the plugin struct can implement the interfaces `json.Unmarshaler` for the file config and `encoding.TextUnmarshaler` for the environment config.

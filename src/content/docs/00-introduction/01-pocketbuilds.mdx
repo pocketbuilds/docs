@@ -1,0 +1,36 @@
+---
+title: PocketBuilds
+description: Learn what PocketBuilds is, how xpb works, and where to start.
+---
+
+import IntroHero from "@components/ui/intro-hero.astro";
+
+PocketBuilds is a plugin ecosystem and set of tools for building custom [PocketBase](https://pocketbase.io/) binaries extended with modular Go code.
+
+You can browse plugins and download prebuilt PocketBase binaries directly from the [PocketBuilds website](https://pocketbuilds.com/).
+
+PocketBuilds uses an open source project called [xpb](https://github.com/pocketbuilds/xpb) under the hood to run builds. You can use xpb directly from your terminal, and you can also build your own plugins.
+
+<IntroHero title="PocketBuilds" />
+
+## The Pieces
+
+- PocketBuilds website: plugin marketplace and hosted builds.
+- XPB CLI: build your own PocketBase binary locally in a reproducible way.
+- XPB plugins: Go modules that hook into PocketBase and add features.
+
+## Key Ideas
+
+**Build-time composition**
+
+XPB builds a single binary that includes PocketBase plus any plugins you include with `--with`.
+
+**Run-time configuration**
+
+Most plugins read config from a `pocketbuilds.toml` file (and can also be configured via env vars).
+
+## Next Steps
+
+- Install xpb: [Installing XPB](/xpb-cli/installing-xpb)
+- Build your first binary: [Using the Builder](/xpb-cli/using-the-builder)
+- Learn the plugin model: [Creating a Plugin](/plugins/creating-a-plugin)
