@@ -1,0 +1,165 @@
+---
+import faviconSvg from '@/assets/favicon.svg';
+import DrawerTrigger from '@components/ui/header/drawer.svelte';
+import ModeToggle from '@components/ui/header/mode.svelte';
+import SearchTrigger from '@components/ui/header/search.svelte';
+import Navigation from '@components/ui/navigation.astro';
+import { resolvePath } from '@modules/resolve-path';
+import { GithubIcon } from '@lucide/svelte';
+
+const socialLinks = [
+    {
+        href: 'https://github.com/pocketbuilds',
+        icon: GithubIcon,
+        title: 'GitHub',
+    },
+];
+---
+
+<header
+    class="z-50 fixed bottom-0 inset-x-0 border-t border-surface-200-800 bg-surface-50-950/90 backdrop-blur-lg h-[calc(var(--header-height)+env(safe-area-inset-bottom))] pb-[env(safe-area-inset-bottom)] flex items-center transition-transform sm:sticky sm:top-0 sm:bottom-auto sm:border-t-0 sm:border-b sm:bg-surface-50-950/75 sm:h-(--header-height) sm:pb-0"
+    data-mobile-bottom-bar
+>
+    <div class="container mx-auto px-4 flex items-center justify-between gap-2">
+
+        <!-- Mobile (<sm): bottom bar — bottom sheet drawer -->
+        <div class="flex sm:hidden flex-1 items-center gap-2">
+            <DrawerTrigger variant="bottom" client:visible>
+                <Navigation />
+            </DrawerTrigger>
+<a
+                class="hover:preset-tonal btn-icon"
+                href={resolvePath(Astro.params, '/introduction/pocketbuilds')}
+                title="PocketBuilds"
+                aria-label="PocketBuilds"
+            >
+                <img src={faviconSvg.src} class="size-5" alt="" />
+            </a>
+        </div>
+
+        <!-- SM–MD (<lg): sticky top bar — side overlay drawer (above content) -->
+        <div class="hidden sm:flex lg:hidden items-center gap-2 mr-2">
+            <DrawerTrigger variant="overlay" client:visible>
+                <Navigation />
+            </DrawerTrigger>
+<a
+                class="flex items-center gap-3"
+                href={resolvePath(Astro.params, '/introduction/pocketbuilds')}
+                title="PocketBuilds"
+                aria-label="PocketBuilds"
+            >
+                <img src={faviconSvg.src} class="size-6" alt="" />
+                <span class="flex items-baseline gap-0.5">
+                    <span class="font-medium">Pocket</span>
+                    <span class="font-bold text-primary-400">Builds</span>
+                </span>
+            </a>
+        </div>
+
+        <!-- LG+: logo only, nav is always visible in sidebar -->
+<a
+            class="hidden lg:flex xl:hidden items-center gap-3 mr-2"
+            href={resolvePath(Astro.params, '/introduction/pocketbuilds')}
+            title="PocketBuilds"
+            aria-label="PocketBuilds"
+        >
+            <img src={faviconSvg.src} class="size-6" alt="" />
+            <span class="flex items-baseline gap-0.5">
+                <span class="font-medium">Pocket</span>
+                <span class="font-bold text-primary-400">Builds</span>
+            </span>
+        </a>
+
+        <!-- XL+: logo with "Documentation" label -->
+<a
+            class="hidden xl:flex items-center gap-3 mr-2"
+            href={resolvePath(Astro.params, '/introduction/pocketbuilds')}
+            title="PocketBuilds"
+            aria-label="PocketBuilds"
+        >
+            <img src={faviconSvg.src} class="size-6" alt="" />
+            <span class="flex items-baseline gap-0.5">
+                <span class="font-medium">Pocket</span>
+                <span class="font-bold text-primary-400">Builds</span>
+            </span>
+            <span class="opacity-60 font-medium">Documentation</span>
+        </a>
+
+        <!-- Search -->
+        <nav class="flex items-center justify-center xl:justify-start">
+            <SearchTrigger client:visible />
+        </nav>
+
+        <!-- Mode toggle -->
+        <nav class="flex justify-center items-center ml-auto gap-1">
+            <ModeToggle client:visible />
+        </nav>
+
+        <span class="vr h-5 hidden xl:inline"></span>
+
+        <!-- Social links -->
+        <nav class="hidden xl:flex justify-center items-center">
+            {
+                socialLinks.map((link) => (
+                    <a
+                        class="hover:preset-tonal btn btn-icon btn-icon-sm"
+                        href={link.href}
+                        title={link.title}
+                        target="_blank"
+                    >
+                        <link.icon class="size-5 fill-current" />
+                    </a>
+                ))
+            }
+        </nav>
+
+    </div>
+</header>
+
+<script is:inline>
+    const header = document.querySelector('[data-mobile-bottom-bar]');
+    if (header) {
+        let lastScrollY = window.scrollY;
+        let ticking = false;
+
+        function isBottomBar() {
+            return window.matchMedia('(max-width: 639px)').matches;
+        }
+
+        function update() {
+            ticking = false;
+            if (!isBottomBar()) {
+                header.classList.remove('translate-y-full');
+                return;
+            }
+            const current = window.scrollY;
+            const delta = current - lastScrollY;
+            if (current < 80) {
+                header.classList.remove('translate-y-full');
+                lastScrollY = current;
+                return;
+            }
+            if (Math.abs(delta) < 12) {
+                lastScrollY = current;
+                return;
+            }
+            if (delta > 0 && current > 160) {
+                header.classList.add('translate-y-full');
+            } else {
+                header.classList.remove('translate-y-full');
+            }
+            lastScrollY = current;
+        }
+
+        function onScroll() {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(update);
+            }
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', () => requestAnimationFrame(update), { passive: true });
+        update();
+    }
+</script>

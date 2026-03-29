@@ -1,0 +1,142 @@
+---
+interface Props {
+	org: string;
+	limit?: number;
+}
+
+const { org, limit = 12 } = Astro.props;
+
+type Repo = {
+	id: number;
+	name: string;
+	full_name: string;
+	html_url: string;
+	description: string | null;
+	language: string | null;
+	stargazers_count: number;
+	forks_count: number;
+	archived: boolean;
+	disabled: boolean;
+	private: boolean;
+	updated_at: string;
+};
+
+let repos: Repo[] = [];
+
+try {
+	const res = await fetch(`https://api.github.com/orgs/${org}/repos?per_page=100&sort=updated`, {
+		headers: {
+			accept: 'application/vnd.github+json',
+		},
+	});
+	if (res.ok) {
+		repos = (await res.json()) as Repo[];
+	}
+} catch {
+	repos = [];
+}
+
+const visible = repos
+	.filter((r) => !r.private && !r.disabled)
+	.toSorted((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
+	.slice(0, limit);
+
+const fallback = [
+	{ name: 'xpb', url: 'https://github.com/pocketbuilds/xpb', description: 'A tool for building PocketBase binaries.' },
+	{ name: 'docs', url: 'https://github.com/pocketbuilds/docs', description: 'Public documentation site for PocketBuilds.' },
+];
+---
+
+<div class="grid gap-3 not-prose">
+	<div class="flex items-baseline justify-between gap-4">
+		<h2 class="h3">Repositories</h2>
+		<a class="text-sm opacity-60 hover:underline" href={`https://github.com/${org}`} target="_blank" rel="noopener noreferrer">
+			View on GitHub
+		</a>
+	</div>
+
+	{visible.length > 0 ? (
+		<ul class="repo-grid grid gap-3 sm:grid-cols-2">
+			{visible.map((repo) => (
+				<li class="h-full">
+					<article class="card border border-surface-200-800 p-4 h-full flex flex-col">
+						<div class="flex items-baseline justify-between gap-3">
+							<a class="font-semibold hover:underline" href={repo.html_url} target="_blank" rel="noopener noreferrer">
+								{repo.name}
+							</a>
+							<div class="text-xs opacity-60 shrink-0">{repo.language ?? ""}</div>
+						</div>
+
+						<div class="mt-2 text-sm opacity-60 flex-1">
+							{repo.description ? (
+								<>
+									{repo.description.length > 100 ? (
+										<>
+											<p class="repo-desc">{repo.description}</p>
+											<details class="mt-2">
+												<summary class="text-xs opacity-70 hover:underline cursor-pointer select-none">
+													More
+												</summary>
+												<p class="mt-2">{repo.description}</p>
+											</details>
+										</>
+									) : (
+										<p>{repo.description}</p>
+									)}
+								</>
+							) : (
+								<span class="opacity-40">No description.</span>
+							)}
+						</div>
+
+						<div class="mt-3 text-xs opacity-60 flex items-center justify-between gap-3">
+							<div class="flex gap-3">
+								<span>★ {repo.stargazers_count}</span>
+								<span>⑂ {repo.forks_count}</span>
+								{repo.archived && <span>Archived</span>}
+							</div>
+							<a class="hover:underline" href={repo.html_url} target="_blank" rel="noopener noreferrer">
+								Open
+							</a>
+						</div>
+					</article>
+				</li>
+			))}
+		</ul>
+	) : (
+		<ul class="repo-grid grid gap-3 sm:grid-cols-2">
+			{fallback.map((repo) => (
+				<li class="h-full">
+					<article class="card border border-surface-200-800 p-4 h-full flex flex-col">
+						<div class="flex items-baseline justify-between gap-3">
+							<a class="font-semibold hover:underline" href={repo.url} target="_blank" rel="noopener noreferrer">
+								{repo.name}
+							</a>
+						</div>
+						<div class="mt-2 text-sm opacity-60 flex-1">
+							<p class="repo-desc">{repo.description}</p>
+						</div>
+						<div class="mt-3 text-xs opacity-60 flex items-center justify-end gap-3">
+							<a class="hover:underline" href={repo.url} target="_blank" rel="noopener noreferrer">
+								Open
+							</a>
+						</div>
+					</article>
+				</li>
+			))}
+		</ul>
+	)}
+</div>
+
+<style>
+	.repo-grid {
+		grid-auto-rows: 1fr;
+	}
+
+	.repo-desc {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+</style>

@@ -1,0 +1,12 @@
+---
+import { resolvePath } from '@/modules/resolve-path';
+import RootLayout from '@/components/layouts/root-layout.astro';
+
+const redirectTo = resolvePath(Astro.params, '/introduction/pocketbuilds');
+const canonical = Astro.site ? new URL(redirectTo, Astro.site).toString() : redirectTo;
+---
+
+<RootLayout title="PocketBuilds Docs" description="PocketBuilds documentation.">
+	<meta slot="head" http-equiv="refresh" content={`0; url=${redirectTo}`} />
+	<link slot="head" rel="canonical" href={canonical} />
+</RootLayout>

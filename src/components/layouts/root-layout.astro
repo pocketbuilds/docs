@@ -1,0 +1,110 @@
+---
+import '@/app.css';
+import { SEO } from 'astro-seo';
+import faviconSvg from '@/assets/favicon.svg';
+import { ClientRouter } from 'astro:transitions';
+import ThemeLoader from '@components/ui/theme-loader.astro';
+import ModeLoader from '@components/ui/mode-loader.astro';
+
+interface Props {
+	title?: string;
+	description?: string;
+	classList?: string;
+}
+
+const {
+	title = 'PocketBuilds Docs',
+	description = 'PocketBuilds documentation.',
+	classList,
+} = Astro.props;
+
+const titleWithSiteSuffix = title === 'PocketBuilds Docs' ? title : `${title} · PocketBuilds Docs`;
+
+const base = import.meta.env.BASE_URL;
+const iconHref = faviconSvg.src;
+const iconUrl = new URL(faviconSvg.src, Astro.site).toString();
+const sitemapHref = `${base}sitemap-index.xml`;
+const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<html lang="en" transition:animate="none">
+	<head>
+		<SEO
+			title={titleWithSiteSuffix}
+			description={description}
+			canonical={pageUrl}
+			charset="UTF-8"
+			theme-color="#111111"
+			openGraph={{
+				basic: {
+					title: titleWithSiteSuffix,
+					type: 'website',
+					url: pageUrl,
+					image: iconUrl,
+				},
+				image: {
+					url: iconUrl,
+					secureUrl: iconUrl,
+					type: `image/svg+xml`,
+					alt: titleWithSiteSuffix,
+				},
+				optional: {
+					locale: 'en_US',
+					siteName: 'PocketBuilds Docs',
+					description: description,
+				},
+			}}
+			twitter={{
+				title: titleWithSiteSuffix,
+				description: description,
+				image: iconUrl,
+				imageAlt: titleWithSiteSuffix,
+				card: 'summary',
+				site: Astro.site?.toString(),
+			}}
+			extend={{
+				meta: [
+					{
+						name: 'viewport',
+						content: 'width=device-width, initial-scale=1',
+					},
+					{
+						name: 'keywords',
+						content: 'pocketbuilds, documentation, docs, svelte, skeleton, tailwind, astro',
+					},
+					{
+						name: 'generator',
+						content: Astro.generator,
+					},
+				],
+				link: [
+					{
+						rel: 'icon',
+						type: `image/svg+xml`,
+						href: iconHref,
+					},
+					{
+						rel: 'sitemap',
+						href: sitemapHref,
+					},
+				],
+			}}
+		/>
+		<ModeLoader />
+		<ThemeLoader />
+		<ClientRouter />
+		<slot name="head" />
+	</head>
+	<body
+		class:list={[
+			'min-h-dvh',
+			'flex',
+			'flex-col',
+			'pb-[calc(var(--header-height)+env(safe-area-inset-bottom))]',
+			'sm:pb-0',
+			classList,
+		]}
+	>
+		<slot />
+	</body>
+</html>

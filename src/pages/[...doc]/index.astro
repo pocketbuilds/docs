@@ -1,0 +1,32 @@
+---
+import RootLayout from '@/components/layouts/root-layout.astro';
+import DocsLayout from '@/components/layouts/docs-layout.astro';
+import { getCollection, getSiblingDoc } from '@/modules/content';
+import { toPublicDocId } from '@/modules/docs-path';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+	const docs = await getCollection('docs');
+	const seen = new Set<string>();
+
+	return docs.map((doc) => {
+		const publicId = toPublicDocId(doc.id);
+		if (seen.has(publicId)) {
+			throw new Error(`Duplicate docs route after stripping numeric prefixes: ${publicId}`);
+		}
+		seen.add(publicId);
+		return {
+			params: { doc: publicId },
+			props: { doc },
+		};
+	});
+}
+
+const { doc } = Astro.props;
+---
+
+<RootLayout title={doc.data.title} description={doc.data.description}>
+	<DocsLayout doc={doc} previousDoc={getSiblingDoc(doc, 'previous')} nextDoc={getSiblingDoc(doc, 'next')} />
+</RootLayout>
+

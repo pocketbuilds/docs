@@ -1,0 +1,96 @@
+---
+title: Using the Builder
+description: Learn the xpb build command, flags, and JSON config file format.
+---
+
+```text
+$ xpb build [<pocketbase_version>]
+    [--output <file>]
+    [--with <module[@version][=replacement]>...]
+    [--config <file>]
+```
+
+- `<pocketbase_version>` is the desired version of pocketbase to use. It defaults to the value of the env variable `XPB__PB_VERSION`, or to `latest` if that is not defined.
+- `--output` is the output file. Defaults to `pocketbase`.
+- `--with` adds an xpb plugin (a Go module) to the build. You can pass this flag multiple times. Advanced usage also supports replacing modules for forks.
+- `--config` is a path to a JSON build config file. CLI flags override config values when both are provided.
+
+## Examples
+
+Build the latest PocketBase and include a plugin:
+
+```sh
+xpb build latest --with github.com/pocketbuilds/fts@latest
+```
+
+Build a pinned PocketBase version and output a named binary:
+
+```sh
+xpb build v0.26.6 --output pocketbase_custom
+```
+
+## The `--with` format
+
+The general form is:
+
+```text
+--with <module[@version][=replacement]>
+```
+
+Examples:
+
+```text
+--with github.com/pocketbuilds/created_by@latest
+--with github.com/pocketbuilds/import_export@v0.1.0
+--with github.com/pocketbuilds/xpb@latest
+```
+
+## Builder Config File
+
+You can use the `--config` flag to specify a json file to configure your build:
+
+```sh
+$ xpb build --config=xpb.json
+```
+
+Your `xpb.json` file might look like this (use a git tag, "latest" tag, or branch name to specify version):
+
+```json
+{
+	"pocketbase": {
+		"version": "latest"
+	},
+	"xpb": {
+		"version": "latest"
+	},
+	"plugins": [
+		{
+			"module": "github.com/pocketbuilds/created_by",
+			"version": "latest"
+		},
+		{
+			"module": "github.com/pocketbuilds/original_file_names",
+			"version": "v0.0.2"
+		},
+		{
+			"module": "github.com/pocketbuilds/last_login",
+			"version": "main"
+		}
+	]
+}
+```
+
+Other optional json field that can be configured:
+
+```json
+{
+	"arch": "amd64",
+	"os": "linux",
+	"tags": [],
+	"ldflags": []
+}
+```
+
+## Reproducible builds
+
+For repeatable builds, pin versions (avoid `latest` and `main`) and commit your `xpb.json` to your repo.

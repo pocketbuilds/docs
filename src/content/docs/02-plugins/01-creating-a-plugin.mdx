@@ -1,0 +1,65 @@
+---
+title: Creating a Plugin
+description: Create an xpb plugin project and implement the xpb.Plugin interface.
+---
+
+You can use the following command to create a plugin project in the working directory:
+
+```sh
+xpb plugin init <plugin_name>
+```
+
+This command will create a Go module using plugin_name as the module name.
+
+The key file to note is plugin.go. It will look something like this:
+
+```go
+package plugin
+
+import (
+	"github.com/pocketbase/pocketbase/core"
+	"github.com/pocketbuilds/xpb"
+)
+
+type Plugin struct{}
+
+func init() {
+	xpb.Register(&Plugin{})
+}
+
+func (p *Plugin) Name() string {
+	return "plugin"
+}
+
+var version string
+
+func (p *Plugin) Version() string {
+	return version
+}
+
+func (p *Plugin) Description() string {
+	panic("unimplemented")
+}
+
+func (p *Plugin) Init(app core.App) error {
+	panic("unimplemented")
+}
+```
+
+The struct here called `Plugin` adheres to the `xpb.Plugin` interface, which allows it to be registered to the xpb runtime in the `init()` function (a special Go function that runs when your Go module is first loaded).
+
+The `xpb.Plugin` interface looks like this:
+
+```go
+type Plugin interface {
+	Init(app core.App) error
+	Name() string
+	Version() string
+	Description() string
+}
+```
+
+- `Init(app core.App) error` is called before the pocketbase application runs. Here you should register pocketbase app [hooks](https://pocketbase.io/docs/go-event-hooks/) to make your plugin do whatever you want it to do.
+- `Name() string` should return your plugin's unique name. Plugin names should follow a snake case naming convention, i.e. "my_plugin".
+- `Version() string` should return your plugin's current version number. At build time, xpb automatically sets the `version` variable for you using the version in the build project's `go.mod` file.
+- `Description() string` should return a short description of what your plugin is and what it does.

@@ -1,0 +1,102 @@
+---
+import { components } from '@components/typography';
+import H1 from '@components/typography/h1.astro';
+import Header from '@components/ui/header/header.astro';
+import Footer from '@components/ui/footer.astro';
+import Navigation from '@components/ui/navigation.astro';
+import TableOfContents from '@components/ui/table-of-contents.svelte';
+import Breadcrumbs from '@components/ui/breadcrumbs.astro';
+import { render, type CollectionEntry } from 'astro:content';
+import NavigationSteps from '@components/ui/navigation-steps.astro';
+import Alert from '@components/ui/alert.astro';
+import EditButton from '@components/ui/edit-button.astro';
+
+interface Props {
+    doc: CollectionEntry<'docs'>;
+    previousDoc?: CollectionEntry<'docs'>;
+    nextDoc?: CollectionEntry<'docs'>;
+}
+
+const { doc, previousDoc, nextDoc } = Astro.props;
+const { Content, headings } = await render(doc);
+---
+
+<!-- Header -->
+<Header />
+
+<div class="flex-1">
+    <!--
+        LG:  2-col grid — [nav | content]
+        XL+: 3-col grid — [nav | content | toc]
+    -->
+    <div class="container mx-auto grid grid-cols-1 lg:grid-cols-[240px_minmax(0px,1fr)] xl:grid-cols-[240px_minmax(0px,1fr)_280px] px-4">
+
+        <!-- Sidebar (Left) — LG+ always visible -->
+        <aside
+            class="hidden lg:block self-start sticky top-(--header-height) h-[calc(100vh-var(--header-height))] border-r border-surface-200-800 py-10 overflow-y-auto hide-scrollbar-track pr-10"
+            data-navigation
+        >
+            <Navigation />
+        </aside>
+
+        <!-- Main content -->
+        <main class="px-4 lg:px-10 py-10 flex flex-col gap-8">
+
+            <!-- Page header -->
+            <header class="space-y-4" data-pagefind-body>
+                <div class="flex justify-between items-start">
+                    <Breadcrumbs />
+                    <EditButton
+                        file={doc.filePath!}
+                        githubRepo="pocketbuilds/pocketbuilds-docs"
+                        githubBranch="main"
+                    />
+                </div>
+                <H1>{doc.data.title}</H1>
+                <p class="text-lg opacity-60">{doc.data.description}</p>
+            </header>
+
+            <!-- Stability warning -->
+            {
+                doc.data.stability !== 'stable' && (
+                    <Alert type="warning">
+                        This feature is currently marked as {doc.data.stability} and not intended for
+                        production use. It may receive breaking changes before its stable release.
+                    </Alert>
+                )
+            }
+
+            <!-- Doc content -->
+            <article class="flex flex-col gap-8 flex-1" data-pagefind-body>
+                <Content components={components} Astro={Astro} />
+                <NavigationSteps {previousDoc} {nextDoc} />
+            </article>
+
+            <Footer class="p-4 lg:px-0 mt-auto" />
+        </main>
+
+        <!-- Sidebar (Right) — ToC, XL+ only -->
+        <aside
+            class="hidden xl:block sticky top-(--header-height) h-[calc(100vh-var(--header-height))] border-l border-surface-200-800 space-y-8 py-10 pl-4 overflow-y-auto hide-scrollbar-track"
+        >
+            <TableOfContents {headings} client:visible />
+        </aside>
+
+    </div>
+</div>
+
+<script is:inline>
+    function restoreScrollPosition() {
+        const KEY = 'navigation-scroll-top';
+        const navigation = document.querySelector('[data-navigation]');
+        if (!navigation) return;
+        navigation.addEventListener('scroll', () => {
+            sessionStorage.setItem(KEY, navigation.scrollTop.toString());
+        });
+        const stored = sessionStorage.getItem(KEY);
+        if (stored) navigation.scrollTop = parseInt(stored);
+    }
+
+    restoreScrollPosition();
+    document.addEventListener('astro:after-swap', restoreScrollPosition);
+</script>

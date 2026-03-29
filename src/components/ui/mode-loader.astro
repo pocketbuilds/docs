@@ -1,0 +1,15 @@
+---
+import { SITE_MODE } from '@/modules/site-config';
+---
+
+<script is:inline define:vars={{ SITE_MODE }}>
+	function applyMode(document = window.document) {
+		const stored = localStorage.getItem('mode');
+		const mode = stored === 'system' || stored === 'light' || stored === 'dark' ? stored : SITE_MODE;
+		document.documentElement.setAttribute('data-mode', mode);
+	}
+
+	applyMode();
+
+	document.addEventListener('astro:before-swap', (event) => applyMode(event.newDocument));
+</script>

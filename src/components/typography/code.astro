@@ -1,0 +1,31 @@
+---
+import { unescape } from 'html-escaper';
+import Code_ from '@components/ui/code.svelte';
+---
+
+{
+	Astro.props.class ? (
+		<div class="mb-2">
+			<Code_ code={unescape(await Astro.slots.render('default'))} lang={Astro.props.class.split('-').pop()} client:load />
+		</div>
+	) : (
+		<code class="code ">
+			<slot />
+		</code>
+	)
+}
+
+<style is:global>
+	:where(.h1, .h2, .h3, .h4, .h5, .h6) .code {
+		display: inline-flex;
+		align-items: center;
+		vertical-align: middle;
+		font-family: inherit;
+		font-size: 1em;
+		font-weight: inherit;
+		font-style: inherit;
+		letter-spacing: inherit;
+		line-height: 1;
+		padding-block: 0.125rem;
+	}
+</style>

@@ -1,0 +1,30 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { GithubIcon } from '@lucide/svelte';
+
+interface Props extends HTMLAttributes<'footer'> {}
+
+const { class: className = 'p-4', ...rest } = Astro.props;
+---
+
+<footer class={`border-t border-surface-500/20 ${className}`} {...rest}>
+	<div class="container mx-auto flex flex-col xl:flex-row justify-between items-center gap-4">
+		<div class="flex items-center gap-4">
+			<p class="text-xs opacity-60">
+				Built by <a href="https://github.com/pocketbuilds" class="anchor inline-flex items-center gap-1 break-all max-w-full" target="_blank" rel="noopener noreferrer">PocketBuilds</a> and the <a href="https://github.com/pocketbuilds/docs/graphs/contributors" class="anchor inline-flex items-center gap-1 break-all max-w-full" target="_blank" rel="noopener noreferrer">PocketBuilds community</a>.
+			</p>
+		</div>
+		<nav class="flex items-center">
+			<a
+				class="hover:preset-tonal btn-icon"
+				href="https://github.com/pocketbuilds"
+				target="_blank"
+				rel="noopener noreferrer"
+				title="GitHub"
+				aria-label="GitHub"
+			>
+				<GithubIcon class="size-5" />
+		</a>
+		</nav>
+	</div>
+</footer>
