@@ -1,0 +1,44 @@
+---
+title: Plugin Validation
+description: Validate plugin configuration and compute defaults with access to the PocketBase app.
+---
+
+You may want to add validation to your plugin configuration to ensure that the user set the config in the intended way before your `plugin.Init` function runs.
+
+To do this you only need to implement the `validation.Validateable` interface.
+
+```go
+type Plugin struct {
+	MySlice  []string `json:"my_slice"`
+	MyString string   `json:"my_string"`
+}
+
+func (p *Plugin) Validate() error {
+	return validation.ValidateStruct(
+		p,
+		validation.Field(
+			&p.MySlice,
+			validation.Required,
+			validation.Each(is.Email),
+		),
+		validation.Field(&p.MyString, validation.Required),
+	)
+}
+```
+
+## Prevalidation
+
+You can always set a default value for your plugin config when you register your plugin, as shown in [Plugin Config](/plugins/plugin-config), but in some situations you need access to the pocketbase app in order to determine a default value. You can do this in the Init function, but then it would cause your validation to fail. For this situation, you can use the `xpb.PreValidator` interface.
+
+```go
+type Plugin struct {
+	MyFilepath string `json:"my_filepath"`
+}
+
+func (p *Plugin) PreValidate(app core.App) error {
+	if p.MyFilepath == "" {
+		p.MyFilepath = filepath.Join(app.DataDir(), "../my_dir/my_file.txt")
+	}
+	return nil
+}
+```

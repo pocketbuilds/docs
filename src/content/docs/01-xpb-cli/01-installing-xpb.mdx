@@ -1,0 +1,40 @@
+---
+title: Installing XPB
+description: Install the xpb CLI to build custom PocketBase binaries with plugins from the PocketBuilds ecosystem.
+---
+
+The xpb cli application also has a plugin project template generator for those who wish to develop xpb plugins themselves.
+
+## Dependencies
+
+- [Go 1.23+](https://go.dev/doc/install)
+
+## Download a Release
+
+- Download the latest xpb release from the GitHub [releases page](https://github.com/pocketbuilds/xpb/releases).
+
+## Use `go install`
+
+1. Install [Go](https://go.dev/doc/install).
+2. Follow [this guide](https://go.dev/doc/tutorial/compile-install) to add Go install directory to your system's shell path.
+3. Run the following command:
+
+```sh
+go install github.com/pocketbuilds/xpb/cmd/xpb@latest
+```
+
+Optionally, to embed an explicit version string in `xpb version`, pin the install to a tag and set the version ldflag:
+
+```sh
+go install -ldflags '-X github.com/pocketbuilds/xpb.version=<version>' github.com/pocketbuilds/xpb/cmd/xpb@<version>
+```
+
+## Verify
+
+```sh
+xpb version
+```
+
+## Next
+
+- Build a binary: [Using the Builder](/xpb-cli/using-the-builder)

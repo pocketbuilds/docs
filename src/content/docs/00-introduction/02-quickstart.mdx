@@ -1,0 +1,54 @@
+---
+title: Quickstart
+description: Install XPB, build a custom PocketBase binary with plugins, and configure it with pocketbuilds.toml.
+---
+
+This guide gets you from zero to a working custom PocketBase binary with one or more plugins.
+
+## 1) Install XPB
+
+Follow: [Installing XPB](/xpb-cli/installing-xpb)
+
+Verify it’s installed:
+
+```sh
+xpb version
+```
+
+## 2) Build PocketBase + plugins
+
+Build the latest PocketBase and include one or more plugins:
+
+```sh
+xpb build latest \
+  --with github.com/pocketbuilds/created_by@latest \
+  --with github.com/pocketbuilds/last_login@latest
+```
+
+This creates a `pocketbase` binary in the current directory.
+
+## 3) Configure plugins (optional)
+
+Create a `pocketbuilds.toml` next to your binary and add plugin config.
+
+Example:
+
+```toml
+[created_by]
+fields = ["posts.created_by"]
+
+[last_login]
+fields = ["users.last_login"]
+```
+
+## 4) Run PocketBase
+
+```sh
+./pocketbase serve
+```
+
+## Where to go next
+
+- Learn the full builder options: [Using the Builder](/xpb-cli/using-the-builder)
+- Browse plugins: [Browse Plugins](/plugins/browse-plugins)
+- Build your own plugin: [Creating a Plugin](/plugins/creating-a-plugin)

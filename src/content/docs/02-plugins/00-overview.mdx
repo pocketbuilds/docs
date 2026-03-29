@@ -1,0 +1,41 @@
+---
+title: Plugins Overview
+description: What xpb plugins are, how they’re installed, and where plugin docs live.
+---
+
+An xpb plugin is a Go module that gets compiled into your PocketBase binary at build time.
+
+## Install a plugin
+
+Use the builder’s `--with` flag:
+
+```sh
+xpb build latest --with github.com/pocketbuilds/fts@latest
+```
+
+## Configure a plugin
+
+Most plugins read config from a `pocketbuilds.toml` file (and may also support environment variables).
+
+Example:
+
+```toml
+[created_by]
+fields = ["posts.created_by"]
+```
+
+## Plugin docs
+
+PocketBuilds is a marketplace: anyone can publish a plugin. Because of that, this docs site focuses on the xpb plugin system (how to build and configure plugins) rather than trying to mirror every plugin’s documentation.
+
+For plugin-specific usage and configuration, use the source of truth:
+
+- Marketplace listings: https://pocketbuilds.com/
+- Plugin repositories: https://github.com/pocketbuilds
+
+## Build your own plugin
+
+- [Creating a Plugin](/plugins/creating-a-plugin)
+- [Plugin Config](/plugins/plugin-config)
+- [Plugin Validation](/plugins/plugin-validation)
+- [Console Commands](/plugins/console-commands)

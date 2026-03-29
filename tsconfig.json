@@ -1,0 +1,31 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "types": [
+      "astro/client"
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@modules": [
+        "./src/modules"
+      ],
+      "@modules/*": [
+        "./src/modules/*"
+      ],
+      "@components": [
+        "./src/components"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@stores": [
+        "./src/stores"
+      ],
+      "@stores/*": [
+        "./src/stores/*"
+      ],
+    }
+  }
+}

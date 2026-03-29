@@ -1,0 +1,23 @@
+---
+title: Console Commands
+description: Register custom PocketBase console commands from your plugin.
+---
+
+You can register a custom console command in the `Init` function. This is not immediately obvious since the interface `core.App` does not by itself have any access to the `RootCmd` struct, but it can be accessed using interface casting:
+
+```go
+func (p *Plugin) Init(app core.App) error {
+	if app, ok := app.(*pocketbase.PocketBase); ok {
+		rootCmd := app.RootCmd
+
+		rootCmd.AddCommand(&cobra.Command{
+			Use: "hello",
+			Run: func(cmd *cobra.Command, args []string) {
+				log.Println("Hello, world!")
+			},
+		})
+	}
+
+	return nil
+}
+```

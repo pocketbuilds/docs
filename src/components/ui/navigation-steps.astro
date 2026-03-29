@@ -1,0 +1,50 @@
+---
+import { resolvePath } from '@/modules/resolve-path';
+import { toPublicDocPath } from '@/modules/docs-path';
+import { ArrowLeftIcon, ArrowRightIcon } from '@lucide/svelte';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	previousDoc?: CollectionEntry<'docs'>;
+	nextDoc?: CollectionEntry<'docs'>;
+}
+
+const { previousDoc, nextDoc } = Astro.props;
+---
+
+<nav class="mt-auto pt-10 grid gap-4 sm:grid-cols-2">
+	<!-- Button: Prev -->
+	{
+		previousDoc && (
+			<a
+				href={resolvePath(Astro.params, toPublicDocPath(previousDoc.id))}
+				class="justify-start tonal preset-tonal h-20 px-4 border border-surface-200-800 gap-3 sm:col-start-1 btn py-6"
+			>
+				<ArrowLeftIcon class="size-5 shrink-0" />
+				<div class="min-w-0">
+					<p class="text-sm opacity-60">Previous</p>
+					<p class="text-sm font-semibold overflow-hidden [display:-webkit-box] [-webkit-line-clamp:2] [-webkit-box-orient:vertical]">
+						{previousDoc.data.title}
+					</p>
+				</div>
+			</a>
+		)
+	}
+	<!-- Button: Next -->
+	{
+		nextDoc && (
+			<a
+				href={resolvePath(Astro.params, toPublicDocPath(nextDoc.id))}
+				class="justify-end btn h-20 px-4 border preset-tonal border-surface-200-800 gap-3 sm:col-start-2 py-6 "
+			>
+				<div class="text-right min-w-0">
+					<p class="text-sm opacity-60">Next</p>
+					<p class="text-sm font-semibold overflow-hidden [display:-webkit-box] [-webkit-line-clamp:2] [-webkit-box-orient:vertical]">
+						{nextDoc.data.title}
+					</p>
+				</div>
+				<ArrowRightIcon class="size-5 shrink-0" />
+			</a>
+		)
+	}
+</nav>
