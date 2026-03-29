@@ -3,18 +3,11 @@ title: Custom Application
 description: Use xpb plugins inside a custom PocketBase application for modularity.
 ---
 
+import CustomAppTreeView from "@/components/ui/custom-app-tree-view.svelte";
+
 You can still take advantage of the PocketBuilds ecosystem even when building a custom pocketbase application. Using xpb in this way is a great way to organize and modularize your project.
 
-```text
-my_project/
-  hooks/
-    hooks.go
-  api/
-    api.go
-  go.mod
-  go.sum
-  main.go
-```
+<CustomAppTreeView />
 
 ```go
 // main.go
