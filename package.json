@@ -41,5 +41,6 @@
     "typescript": "5.9.3",
     "vite-plugin-transform-lucide-imports": "^0.3.0"
   },
-  "type": "module"
+  "type": "module",
+  "packageManager": "pnpm@9.9.0"
 }
