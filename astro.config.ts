@@ -27,7 +27,7 @@ function getSite() {
     }
     return `https://${owner}.github.io/${repo}`;
   }
-  return "";
+  return "https://docs.pocketbuilds.com";
 }
 
 export default defineConfig({
