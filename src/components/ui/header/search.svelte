@@ -56,10 +56,10 @@
 			}
 			try {
 				const pagefind: Pagefind = await import(
-					/* @vite-ignore */ `${import.meta.env.BASE_URL}pagefind/pagefind.js`
+					/* @vite-ignore */ `${import.meta.env.BASE_URL.replace(/\/?$/, "/")}pagefind/pagefind.js`
 				);
 				await pagefind.options({
-					baseUrl: import.meta.env.BASE_URL,
+					baseUrl: import.meta.env.BASE_URL.replace(/\/?$/, "/"),
 					excerptLength: 3,
 					ranking: {
 						termFrequency: 0,
